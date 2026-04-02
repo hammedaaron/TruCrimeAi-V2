@@ -1,0 +1,103 @@
+{
+  "entities": {
+    "Generation": {
+      "title": "Generation",
+      "description": "A generated true crime content piece including research, script, and image prompts.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The user ID who created this generation." },
+        "topic": { "type": "string", "description": "The topic or name of the case." },
+        "scriptStyle": { "type": "string", "description": "The style of the script generated." },
+        "imageryStyle": { "type": "string", "description": "The style of the imagery prompts." },
+        "characterReferenceUrl": { "type": "string", "description": "URL to the character reference image." },
+        "characterDescription": { "type": "string", "description": "Description of the character for consistency." },
+        "research": {
+          "type": "object",
+          "properties": {
+            "suspectName": { "type": "string" },
+            "whoTheyWere": { "type": "string" },
+            "whatHappened": { "type": "string" },
+            "howTheyEndedUpThere": { "type": "string" },
+            "keyFacts": { "type": "array", "items": { "type": "string" } },
+            "sources": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "title": { "type": "string" },
+                  "uri": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "script": { "type": "string" },
+        "extendedScript": { "type": "string" },
+        "imagePrompts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "sceneNumber": { "type": "number" },
+              "imagePrompt": { "type": "string" },
+              "animationPrompt": { "type": "string" },
+              "scriptLine": { "type": "string" }
+            }
+          }
+        },
+        "extendedImagePrompts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "sceneNumber": { "type": "number" },
+              "imagePrompt": { "type": "string" },
+              "animationPrompt": { "type": "string" },
+              "scriptLine": { "type": "string" }
+            }
+          }
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "topic", "scriptStyle", "imageryStyle", "research", "script", "imagePrompts", "createdAt"]
+    },
+    "ContentStyle": {
+      "title": "Content Style",
+      "description": "User-defined content styles for script generation.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "name": { "type": "string" },
+        "prompt": { "type": "string" },
+        "isDefault": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "name", "prompt", "createdAt"]
+    },
+    "Settings": {
+      "title": "User Settings",
+      "description": "Global settings for the user, including visual storytelling rules.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "visualStorytellingRules": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "visualStorytellingRules", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/generations/{generationId}": {
+      "schema": "Generation",
+      "description": "Collection of all generated content."
+    },
+    "/contentStyles/{styleId}": {
+      "schema": "ContentStyle",
+      "description": "Collection of user-defined content styles."
+    },
+    "/settings/{userId}": {
+      "schema": "Settings",
+      "description": "User-specific settings document."
+    }
+  }
+}
